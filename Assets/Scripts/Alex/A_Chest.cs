@@ -10,7 +10,6 @@ public class Chest : Interactive
         //
         //Remove UNLIT_TORCH from inventory
         //In addition, add LIT_TORCH to found objects
-        GetComponent<Animator>().SetTrigger("Open");
-        Inventory.Instance.PickupKeyItem(data);
+        Inventory.Instance.RemoveFromInventory(data);
     }
 }
