@@ -4,6 +4,7 @@ using UnityEngine;
 public class Chest : Interactive
 {
     public KeyItemData data;
+    public KeyItemData dataInside;
     public override void OnInteraction()
     {
         //If I want to do the base OnInteraction anyway first

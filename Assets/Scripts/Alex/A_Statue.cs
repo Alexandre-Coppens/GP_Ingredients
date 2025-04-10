@@ -5,54 +5,53 @@ using UnityEngine;
 
 public class Statue : Interactive
 {
-    private enum Skins
+    public enum Skins
     {
         F_Druid,
-        F_Gypsy,
         F_Peasant_1,
-        F_Peasant_2,
-        F_Queen,
         F_Witch,
         M_Bard,
         M_King,
-        M_Peasant,
         M_Rogue,
-        M_Sorcerer,
-        M_Wizard
+
     }
 
-    [SerializeField] private Skins skin;
-    [SerializeField] private bool changeSkin;
+  //   public Skins skin;
+   // [SerializeField] private bool changeSkin;
 
     private GameObject[] statueSkins;
-
+    private byte skinNum = 1;
     public KeyItemData data;
+    public GameObject torch;
 
     private void Start()
     {
         SkinnedMeshRenderer[] meshes = GetComponentsInChildren<SkinnedMeshRenderer>();
-        statueSkins = GetFromTo(meshes, 0, 12);
-        ChangeSkin(Skins.F_Druid);
+        statueSkins = GetFromTo(meshes, 0, 6);
+        ChangeSkin((Skins)0);
     }
 
     public override void OnInteraction()
     {
         //If I want to do the base OnInteraction anyway first
-        //
         //Remove UNLIT_TORCH from inventory
         //In addition, add LIT_TORCH to found objects
         GetComponent<Animator>().SetTrigger("Open");
-        Inventory.Instance.PickupKeyItem(data);
+        ChangeSkin((Skins)skinNum);
+        torch.GetComponent<WallTorch_Baptiste>().ChangeTorch(skinNum);
+        skinNum++;
+        if (skinNum >= 6) { skinNum = 0; }
+        //Inventory.Instance.PickupKeyItem(data);
     }
 
-    private void Update()
-    {
-        if (changeSkin)
-        {
-            ChangeSkin(skin);
-            changeSkin = false;
-        }
-    }
+    //private void Update()
+    //{
+    //    if (changeSkin)
+    //    {
+    //        ChangeSkin((Skins)skinNum);
+    //        //changeSkin = false;
+    //    }
+    //}
 
     private void ChangeSkin(Skins newSkin)
     {
